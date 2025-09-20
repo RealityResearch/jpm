@@ -9,4 +9,6 @@ export const env = {
   jupPriceUrl:
     process.env.NEXT_PUBLIC_JUP_PRICE_URL ??
     "https://price.jup.ag/v6/price?ids=SOL",
+  moralisKey: process.env.MORALIS_API_KEY ?? "",
+  moralisPublicKey: process.env.NEXT_PUBLIC_MORALIS_API_KEY ?? "",
 } as const;

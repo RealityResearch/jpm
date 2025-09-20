@@ -28,10 +28,14 @@ export async function GET() {
     meta.feesUrl = feesUrl;
     if (totalUrl) meta.totalUrl = totalUrl;
 
-    const [feesRes, totalRes, priceRes] = await Promise.allSettled([
+    const coinMetaUrl = `${pumpBase}/v1/coins/${mint}`;
+    meta.coinUrl = coinMetaUrl;
+
+    const [feesRes, totalRes, priceRes, coinRes] = await Promise.allSettled([
       fetchJSON<PumpFeeResponse>(feesUrl, { cache: "no-store" }, 12000),
       totalUrl ? fetchJSON<PumpFeeTotal>(totalUrl, { cache: "no-store" }, 10000) : Promise.resolve(null),
       fetchJSON<{ data: { SOL: { price: number } } }>(jupPriceUrl, { cache: "no-store" }, 8000),
+      fetchJSON<{ holders: number }>(coinMetaUrl, { cache: "no-store" }, 8000),
     ]);
 
     if (feesRes.status !== "fulfilled" || !Array.isArray(feesRes.value) || feesRes.value.length === 0) {
@@ -42,6 +46,8 @@ export async function GET() {
     const total = totalRes && totalRes.status === "fulfilled" ? totalRes.value : null;
     const solPriceUSD =
       priceRes.status === "fulfilled" ? Number(priceRes.value?.data?.SOL?.price ?? 0) : 0;
+
+    const shareholders = coinRes.status === "fulfilled" ? coinRes.value?.holders ?? 0 : 0;
 
     const sparklineSOL = fees.map((b) => Number(b.cumulativeCreatorFeeSOL || 0));
     let balanceSOL = sparklineSOL.at(-1) ?? 0;
@@ -67,6 +73,7 @@ export async function GET() {
       fees24hSOL,
       fees24hUSD: fees24hSOL * solPriceUSD,
       trades24h,
+      shareholders,
       updatedAt: new Date().toISOString(),
       sparklineSOL,
       meta,

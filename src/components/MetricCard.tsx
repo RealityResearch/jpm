@@ -23,7 +23,9 @@ export default function MetricCard({ label, primary, secondary, loading, classNa
         </div>
         {secondary ? (
           <div className="text-xs text-neutral-500">{secondary}</div>
-        ) : null}
+        ) : (
+          <div className="text-xs invisible">-</div>
+        )}
       </CardContent>
     </Card>
   );

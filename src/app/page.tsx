@@ -1,63 +1,69 @@
 "use client";
 
+import Image from "next/image";
 import TreasuryCard from "@/components/TreasuryCard";
 import MetricCard from "@/components/MetricCard";
 import Milestones from "@/components/Milestones";
 import { useRewards } from "@/hooks/useRewards";
-import { formatCurrency, formatNumber } from "@/lib/format";
-import Image from "next/image";
+import { useHolders } from "@/hooks/useHolders";
+import { useTokenMetrics } from "@/hooks/useTokenMetrics";
+import { formatNumber, formatAbbrCurrency } from "@/lib/format";
 
 export default function HomePage() {
-  const { data, loading } = useRewards();
+  // Rewards (if you still need them elsewhere)
+  const { data: rewards, loading: loadingRewards } = useRewards();
 
-  const fees24hUsd = data?.fees24hUSD ?? 0;
-  const fees24hSol = data?.fees24hSOL ?? 0;
-  const trades24h = data?.trades24h ?? 0;
-  const solPrice = data?.solPriceUSD ?? 0;
+  // Holders
+  const { holders, loading: loadingHolders } = useHolders();
+
+  // Market cap / token price (from Moralis-backed hook)
+  const {
+    data: tokenMetrics,
+    error: metricsError,
+    isLoading: loadingMetrics,
+  } = useTokenMetrics();
+
+  const marketCapUSD = tokenMetrics?.marketCapUsd ?? 0;
 
   return (
     <main className="mx-auto max-w-6xl space-y-8 p-4 md:p-6">
-      {/* Logo placeholder */}
+      {/* Top-center logo */}
       <header className="flex justify-center">
-  <Image
-    src="/jpm-brown.png"
-    alt="J.P. Moregain logo"
-    width={192}       // pick the intrinsic pixel width of your file
-    height={56}       // or set `priority` / `sizes` props as needed
-  />
-</header>
+        <Image
+          src="/jpm-brown.png"
+          alt="J.P. Moregain logo"
+          width={192}
+          height={56}
+          priority
+        />
+      </header>
 
-      {/* Treasury hero */}
+      {/* Treasury hero (center, large) */}
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12">
           <TreasuryCard className="h-full" />
         </div>
       </div>
 
-      {/* Metrics */}
+      {/* Metrics row */}
       <div className="grid grid-cols-12 gap-4">
+        {/* Shareholders */}
         <div className="col-span-12 sm:col-span-6 lg:col-span-4">
           <MetricCard
-            label="Fees (24h)"
-            primary={formatCurrency(fees24hUsd)}
-            secondary={`${formatNumber(fees24hSol)} SOL`}
-            loading={loading}
+            label="Shareholders"
+            primary={formatNumber(holders ?? 0)}
+            loading={loadingHolders}
           />
         </div>
+
+        {/* Market Cap */}
         <div className="col-span-12 sm:col-span-6 lg:col-span-4">
           <MetricCard
-            label="Trades (24h)"
-            primary={formatNumber(trades24h)}
-            secondary="trades"
-            loading={loading}
-          />
-        </div>
-        <div className="col-span-12 sm:col-span-6 lg:col-span-4">
-          <MetricCard
-            label="SOL Price"
-            primary={formatCurrency(solPrice)}
-            secondary="USD"
-            loading={loading}
+            label="Market Cap"
+            primary={formatAbbrCurrency(marketCapUSD)}
+            loading={loadingMetrics}
+            // Optionally show an error state:
+            // error={metricsError ? "Failed to load market cap" : undefined}
           />
         </div>
       </div>
