@@ -44,8 +44,17 @@ export async function GET() {
 
     const fees = feesRes.value;
     const total = totalRes && totalRes.status === "fulfilled" ? totalRes.value : null;
-    const solPriceUSD =
-      priceRes.status === "fulfilled" ? Number(priceRes.value?.data?.SOL?.price ?? 0) : 0;
+    let solPriceUSD = priceRes.status === "fulfilled" ? Number(priceRes.value?.data?.SOL?.price ?? 0) : 0;
+    if (!solPriceUSD) {
+      try {
+        const cg = await fetchJSON<{ solana: { usd: number } }>(
+          "https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",
+          {},
+          6000
+        );
+        solPriceUSD = cg.solana.usd ?? 0;
+      } catch {}
+    }
 
     const shareholders = coinRes.status === "fulfilled" ? coinRes.value?.holders ?? 0 : 0;
 
