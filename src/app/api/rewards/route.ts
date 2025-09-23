@@ -14,6 +14,9 @@ function json(status: number, data: unknown) {
   return res;
 }
 
+// In-memory cache of last non-zero SOL price to smooth out transient failures
+let lastGoodSolPrice = 0;
+
 export async function GET() {
   const meta: Record<string, unknown> = {};
   try {
@@ -54,6 +57,13 @@ export async function GET() {
         );
         solPriceUSD = cg.solana.usd ?? 0;
       } catch {}
+    }
+
+    // fallback to last good price to prevent $0 flicker
+    if (solPriceUSD === 0 && lastGoodSolPrice) {
+      solPriceUSD = lastGoodSolPrice;
+    } else if (solPriceUSD > 0) {
+      lastGoodSolPrice = solPriceUSD;
     }
 
     const shareholders = coinRes.status === "fulfilled" ? coinRes.value?.holders ?? 0 : 0;
