@@ -36,8 +36,9 @@ export default function Chat() {
     });
 
     const channel = pusher.subscribe("presence-chat");
-    channel.bind("pusher:subscription_succeeded", (members: any) => {
-      setOnline(members.count);
+    channel.bind("pusher:subscription_succeeded", (members: unknown) => {
+      const count = (members as { count: number }).count || 0;
+      setOnline(count);
     });
     channel.bind("pusher:member_added", () => setOnline((c) => c + 1));
     channel.bind("pusher:member_removed", () => setOnline((c) => Math.max(0, c - 1)));
