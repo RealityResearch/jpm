@@ -6,9 +6,9 @@ import { useRewards } from "@/hooks/useRewards";
 import { cn } from "@/lib/utils";
 
 export function EarningsSection({ source = "mock" }: { source?: "mock" | "api" }) {
-  const { data, isLoading, isError } = useRewards();
+  const { data, loading, error } = useRewards();
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 w-full">
         {Array.from({ length: 4 }).map((_, i) => (
@@ -18,7 +18,7 @@ export function EarningsSection({ source = "mock" }: { source?: "mock" | "api" }
     );
   }
 
-  if (isError || !data) {
+  if (error || !data) {
     return (
       <Card className="p-6 text-center">
         <p className="mb-4 text-neutral-400">Failed to load metrics.</p>
@@ -62,7 +62,7 @@ export function EarningsSection({ source = "mock" }: { source?: "mock" | "api" }
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 w-full">
       {metrics.map((m) => (
-        <MetricCard key={m.label} {...m} sparkline={data.sparklineSOL} />
+        <MetricCard key={m.label} {...m} accent={m.accent as "emerald" | "sky" | "red"} sparkline={data.sparklineSOL} />
       ))}
     </div>
   );
