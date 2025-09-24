@@ -6,10 +6,10 @@ import { useRewards } from "@/hooks/useRewards";
 import { cn } from "@/lib/utils";
 
 export function RewardsTracker({ source = "mock" }: { source?: "mock" | "api" }) {
-  const { data, isLoading, isError } = useRewards();
+  const { data, loading, error } = useRewards();
 
-  if (isLoading) return <Skeleton className="h-16 w-full" />;
-  if (isError || !data)
+  if (loading) return <Skeleton className="h-16 w-full" />;
+  if (error || !data)
     return (
       <Card className="p-4 text-center">Failed to load rewards.</Card>
     );
