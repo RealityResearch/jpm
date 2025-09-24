@@ -23,8 +23,8 @@ export function useHolders() {
       const json = await res.json();
       setHolders(json.holders ?? 0);
       if (!res.ok) setError(json.error ?? "Error");
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      setError((e as Error).message);
     } finally {
       setLoading(false);
       setUpdating(false);

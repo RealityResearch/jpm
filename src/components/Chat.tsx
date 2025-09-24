@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/Card";
-import { cn } from "@/lib/utils";
 import Pusher from "pusher-js";
 
 const NICK_KEY = "jpm:nick";
@@ -42,8 +41,9 @@ export default function Chat() {
     });
     channel.bind("pusher:member_added", () => setOnline((c) => c + 1));
     channel.bind("pusher:member_removed", () => setOnline((c) => Math.max(0, c - 1)));
-    channel.bind("chat:new-message", (data: Msg) => {
-      setMessages((m) => [...m, data]);
+    channel.bind("chat:new-message", (data: unknown) => {
+      const msg = data as Msg;
+      setMessages((m) => [...m, msg]);
     });
 
     return () => {

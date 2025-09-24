@@ -38,10 +38,12 @@ export function useRewards() {
       const json = parse() as Rewards | null;
       if (!json) return { ok: false, status: 200, message: "Invalid JSON" };
       return { ok: true, data: json };
-    } catch (err: any) {
-      if (err?.name === "AbortError")
+    } catch (e: unknown) {
+      if ((e as DOMException).name === "AbortError") {
         return { ok: false, status: 499, message: "Aborted" };
-      return { ok: false, status: 0, message: err?.message || "Network error" };
+      }
+      const msg = (e as Error).message || "Network error";
+      return { ok: false, status: 0, message: msg };
     }
   }, []);
 
