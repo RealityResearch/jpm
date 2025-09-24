@@ -71,7 +71,7 @@ export async function GET() {
         },
       }
     );
-  } catch (e: any) {
-    return NextResponse.json({ error: e?.message || "Unknown", step: "unexpected" }, { status: 500 });
+  } catch (e: unknown) {
+    return NextResponse.json({ error: (e as Error).message || "Unknown" }, { status: 500 });
   }
 }
