@@ -9,17 +9,20 @@ type Msg = { username: string; message: string; ts: number };
 
 export default function Chat() {
   const [nick, setNick] = useState("");
-  const [draftNick, setDraftNick] = useState("");
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Msg[]>([]);
   const paneRef = useRef<HTMLDivElement>(null);
   const [online, setOnline] = useState(0);
 
-  // load nickname
+  // generate or load nickname once
   useEffect(() => {
-    const saved = localStorage.getItem(NICK_KEY) || "";
+    let saved = localStorage.getItem(NICK_KEY);
+    if (!saved) {
+      const random = Math.floor(100 + Math.random() * 900); // 100-999
+      saved = `User${random}`;
+      localStorage.setItem(NICK_KEY, saved);
+    }
     setNick(saved);
-    setDraftNick(saved);
   }, []);
 
   // pusher subscribe
@@ -71,11 +74,7 @@ export default function Chat() {
     });
   };
 
-  const saveNick = () => {
-    const n = draftNick.trim().slice(0, 24);
-    setNick(n);
-    localStorage.setItem(NICK_KEY, n);
-  };
+  // no manual nickname editing
 
   return (
     <Card className="h-[400px] flex flex-col border-neutral-200 bg-white">
@@ -92,32 +91,16 @@ export default function Chat() {
         ))}
       </CardContent>
       <CardFooter className="flex items-center gap-2">
-        {!nick ? (
-          <>
-            <input
-              value={draftNick}
-              onChange={(e) => setDraftNick(e.target.value)}
-              placeholder="Enter nickname"
-              className="flex-1 border rounded px-2 py-1 text-sm"
-            />
-            <button onClick={saveNick} className="px-3 py-1 rounded bg-emerald-600 text-white text-sm">
-              Join
-            </button>
-          </>
-        ) : (
-          <>
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && send()}
-              placeholder="Message…"
-              className="flex-1 border rounded px-2 py-1 text-sm"
-            />
-            <button onClick={send} className="px-3 py-1 rounded bg-emerald-600 text-white text-sm">
-              Send
-            </button>
-          </>
-        )}
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && send()}
+          placeholder="Message…"
+          className="flex-1 border rounded px-2 py-1 text-sm"
+        />
+        <button onClick={send} className="px-3 py-1 rounded bg-emerald-600 text-white text-sm">
+          Send
+        </button>
       </CardFooter>
     </Card>
   );

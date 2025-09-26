@@ -36,6 +36,9 @@ export default function HomePage() {
         <p className="text-xs text-neutral-400">CA: {process.env.NEXT_PUBLIC_JPM_MINT}</p>
       </header>
 
+      {/* Financials header */}
+      <h2 className="text-lg font-semibold text-neutral-700 mb-4">Financials</h2>
+
       {/* Top three cards */}
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-4">
@@ -72,7 +75,9 @@ export default function HomePage() {
         profitUSD={profitUSD}
       />
 
-      {/* Live chat placeholder */}
+      {/* Shareholder Meetings header */}
+      <h2 className="text-lg font-semibold text-neutral-700 mb-4">Shareholder Meetings</h2>
+
       <Chat />
     </main>
   );
