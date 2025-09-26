@@ -18,17 +18,22 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200 shadow-sm">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-6">
         {/* Brand */}
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/jpm-brown.png"
-            alt="J.P. Moregain"
-            width={120}
-            height={32}
-            priority
-            className="h-8 w-auto"
-          />
-          <span className="sr-only">J.P. Moregain</span>
-        </Link>
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2">
+            <Image
+              src="/jpm-brown.png"
+              alt="J.P. Moregain"
+              width={120}
+              height={32}
+              priority
+              className="h-8 w-auto"
+            />
+            <span className="sr-only">J.P. Moregain</span>
+          </Link>
+          <Link href="/cap-table" className="hidden md:inline-block text-sm text-neutral-700 hover:underline">
+            Cap Table
+          </Link>
+        </div>
 
         {/* Desktop links */}
         <ul className="hidden gap-6 md:flex">
@@ -75,6 +80,9 @@ export default function Navbar() {
           open ? "flex" : "hidden"
         )}
       >
+        <Link href="/cap-table" className="text-sm text-neutral-700 hover:underline" onClick={() => setOpen(false)}>
+          Cap Table
+        </Link>
         {links.map((l) => (
           <a
             key={l.label}
