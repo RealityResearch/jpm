@@ -1,0 +1,93 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+
+export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const links = [
+    { label: "X", href: "https://x.com/JPMonSOL", external: true },
+    { label: "DEX", href: "https://dexscreener.com", external: true },
+    { label: "PUMP", href: "https://pump.fun", external: true },
+  ];
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200 shadow-sm">
+      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-6">
+        {/* Brand */}
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/jpm-brown.png"
+            alt="J.P. Moregain"
+            width={120}
+            height={32}
+            priority
+            className="h-8 w-auto"
+          />
+          <span className="sr-only">J.P. Moregain</span>
+        </Link>
+
+        {/* Desktop links */}
+        <ul className="hidden gap-6 md:flex">
+          {links.map((l) => (
+            <li key={l.label}>
+              <a
+                href={l.href}
+                target={l.external ? "_blank" : undefined}
+                rel={l.external ? "noopener noreferrer" : undefined}
+                className="text-sm text-neutral-700 hover:underline"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+          aria-label="Menu"
+        >
+          <svg
+            className="h-5 w-5 text-neutral-800"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            {open ? (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            ) : (
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            )}
+          </svg>
+        </button>
+      </nav>
+
+      {/* Mobile dropdown */}
+      <div
+        className={cn(
+          "md:hidden border-t border-neutral-200 bg-white px-4 pb-4 flex-col space-y-2", // container styles
+          open ? "flex" : "hidden"
+        )}
+      >
+        {links.map((l) => (
+          <a
+            key={l.label}
+            href={l.href}
+            target={l.external ? "_blank" : undefined}
+            rel={l.external ? "noopener noreferrer" : undefined}
+            className="text-sm text-neutral-700 hover:underline py-1"
+            onClick={() => setOpen(false)}
+          >
+            {l.label}
+          </a>
+        ))}
+      </div>
+    </header>
+  );
+}

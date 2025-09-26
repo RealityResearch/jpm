@@ -31,10 +31,9 @@ export default function HomePage() {
 
   return (
     <main className="mx-auto max-w-6xl space-y-8 p-4 md:p-6">
-      {/* Logo */}
-      <header className="flex flex-col items-center gap-1">
-        <Image src="/jpm-brown.png" alt="J.P. Moregain" width={192} height={56} sizes="192px" priority />
-        <p className="text-xs text-neutral-400">Mint: {process.env.NEXT_PUBLIC_JPM_MINT}</p>
+      {/* Contract address */}
+      <header className="flex justify-center">
+        <p className="text-xs text-neutral-400">CA: {process.env.NEXT_PUBLIC_JPM_MINT}</p>
       </header>
 
       {/* Top three cards */}
