@@ -28,7 +28,15 @@ export async function GET() {
       ),
     ]);
 
-    const totalSupply = Number(holdersRes.totalSupply ?? 0);
+    let totalSupply = Number(holdersRes.totalSupply ?? 0);
+    if (!totalSupply && holdersRes.result.length && holdersRes.result[0].percentageRelativeToTotalSupply) {
+      // derive supply from first holder
+      const first = holdersRes.result[0];
+      const bal = Number(first.balanceFormatted);
+      const pct = first.percentageRelativeToTotalSupply;
+      if (pct) totalSupply = Math.round((bal / pct) * 100);
+    }
+    if (!totalSupply) totalSupply = 0;
 
     const raw = holdersRes.result.slice(1, 11); // skip index 0 (LP), take next 10
     const holders = raw.map((h, idx) => {
