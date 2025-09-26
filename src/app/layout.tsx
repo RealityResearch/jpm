@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "J.P. Moregain",
   description: "Creating shareholder value since 1871.",
+  icons: {
+    icon: "/jpm-favicon.svg",
+  },
 };
 
 export default function RootLayout({
