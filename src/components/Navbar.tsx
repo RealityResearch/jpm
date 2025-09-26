@@ -27,11 +27,15 @@ export default function Navbar() {
               height={32}
               priority
               className="h-8 w-auto"
+              style={{ width: "auto", height: "2rem" }}
             />
             <span className="sr-only">J.P. Moregain</span>
           </Link>
           <Link href="/cap-table" className="hidden md:inline-block text-sm text-neutral-700 hover:underline">
             Cap Table
+          </Link>
+          <Link href="/whitepaper" className="hidden md:inline-block text-sm text-neutral-700 hover:underline">
+            Whitepaper
           </Link>
         </div>
 
@@ -82,6 +86,9 @@ export default function Navbar() {
       >
         <Link href="/cap-table" className="text-sm text-neutral-700 hover:underline" onClick={() => setOpen(false)}>
           Cap Table
+        </Link>
+        <Link href="/whitepaper" className="text-sm text-neutral-700 hover:underline" onClick={() => setOpen(false)}>
+          Whitepaper
         </Link>
         {links.map((l) => (
           <a
