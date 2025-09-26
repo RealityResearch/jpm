@@ -28,7 +28,6 @@ export async function GET() {
       ),
     ]);
 
-    const decimals = metaRes.decimals ?? 0;
     const totalSupply = Number(holdersRes.totalSupply ?? 0);
 
     const raw = holdersRes.result.slice(1, 11); // skip index 0 (LP), take next 10

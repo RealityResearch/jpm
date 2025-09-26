@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Skeleton";
 import useSWR from "swr";
-import { formatAbbrCurrency, formatCurrency, formatNumber } from "@/lib/format";
+import { formatAbbrCurrency, formatNumber } from "@/lib/format";
 
 type Holder = {
   rank: number;
@@ -28,7 +28,7 @@ type ApiResp = {
 const fetcher = (url: string) => fetch(url, { cache: "no-store" }).then((r) => r.json());
 
 export default function CapTablePage() {
-  const { data, isLoading, error } = useSWR<ApiResp>("/api/top-holders", fetcher, {
+  const { data, error } = useSWR<ApiResp>("/api/top-holders", fetcher, {
     refreshInterval: 120_000,
     revalidateOnFocus: false,
   });
@@ -104,7 +104,10 @@ export default function CapTablePage() {
               </tr>
             </thead>
             <tbody>
-              {(data?.holders ?? Array.from({ length: 10 })).map((row: any, idx: number) => (
+              {(
+                (data?.holders as Holder[] | undefined) ??
+                (Array.from({ length: 10 }) as Array<Holder | undefined>)
+              ).map((row: Holder | undefined, idx: number) => (
                 <tr key={idx} className="border-b last:border-0">
                   <td className="px-4 py-2">
                     {data ? idx + 1 : <Skeleton className="h-4 w-6" />}
