@@ -18,10 +18,10 @@ export default function RevenueCard({ usd, sol, loading, error, className }: Pro
         <CardTitle className="text-neutral-600">Revenue</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <div className="text-4xl font-semibold tracking-tight text-neutral-900">
+        <div className="text-4xl font-semibold tracking-tight text-neutral-900 font-amplitude">
           {loading ? "—" : formatCurrency(usd)}
         </div>
-        <div className="text-sm text-emerald-600">
+        <div className="text-sm text-emerald-600 font-amplitude">
           {loading ? "—" : `${formatNumber(sol)} SOL`}
         </div>
         {error ? (

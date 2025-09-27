@@ -14,9 +14,9 @@ export default function MilestoneCard({ milestone, progress }: Props) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <p className="text-sm text-neutral-500">Cost: {formatCurrency(milestone.costUSD)}</p>
+        <p className="text-sm text-neutral-500 font-amplitude-light">Cost: {formatCurrency(milestone.costUSD)}</p>
         <Progress value={progress} />
-        <p className="text-xs text-neutral-400">{Math.round(progress)}% funded</p>
+        <p className="text-xs text-neutral-400 font-amplitude-light">{Math.round(progress)}% funded</p>
       </CardContent>
     </Card>
   );

@@ -22,11 +22,11 @@ export default function MilestonesCarousel({ active, upcoming, completed, profit
 
   return (
     <section className="space-y-6">
-      <h2 className="text-lg text-neutral-700 mb-4 font-century">OpEx</h2>
+      <h2 className="text-2xl text-neutral-700 mb-4 font-century underline">OpEx</h2>
       {/* Active */}
       {active.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-sm font-medium text-neutral-600">Active</h3>
+          <h3 className="text-sm font-medium text-neutral-600 font-amplitude-light">Active</h3>
           {active.filter(a=>!completed.some(c=>c.id===a.id)).map((m, idx) => {
             const pct = idx === 0 && m.costUSD > 0 ? Math.min(100, Math.max(0, (profitUSD / m.costUSD) * 100)) : 0;
             const progress = Number.isFinite(pct) ? pct : 0;
@@ -38,7 +38,7 @@ export default function MilestonesCarousel({ active, upcoming, completed, profit
       {/* completed */}
       {completed.length > 0 && (
         <div>
-          <h3 className="text-sm font-medium text-neutral-600 mb-2">Completed</h3>
+          <h3 className="text-sm font-medium text-neutral-600 mb-2 font-amplitude-light">Completed</h3>
           <div className="space-y-4">
             {completed.map((m) => (
               <MilestoneCard key={m.id} milestone={m} progress={100} />

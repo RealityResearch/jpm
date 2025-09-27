@@ -85,8 +85,8 @@ export default function Chat() {
       <CardContent className="flex-1 overflow-y-auto space-y-2" ref={paneRef}>
         {messages.map((m) => (
           <div key={m.ts} className="text-sm">
-            <span className="font-medium text-neutral-800 mr-1">{m.username}:</span>
-            <span className="text-neutral-700">{m.message}</span>
+            <span className="font-medium text-neutral-800 mr-1 font-amplitude-light">{m.username}:</span>
+            <span className="text-neutral-700 font-amplitude">{m.message}</span>
           </div>
         ))}
       </CardContent>

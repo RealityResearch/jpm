@@ -11,10 +11,10 @@ export default function ExpensesCard({ totalUSD, totalSOL, loading, className }:
         <CardTitle className="text-neutral-600">Expenses</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <div className="text-4xl font-semibold tracking-tight text-neutral-900">
+        <div className="text-4xl font-semibold tracking-tight text-neutral-900 font-amplitude">
           {loading ? "—" : formatCurrency(totalUSD)}
         </div>
-        <div className="text-sm text-red-600">
+        <div className="text-sm text-red-600 font-amplitude">
           {loading ? "—" : `${formatNumber(totalSOL)} SOL`}
         </div>
       </CardContent>

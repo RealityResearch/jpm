@@ -73,3 +73,7 @@ body {
 .font-amplitude {
   font-family: "AmplitudeRegular", sans-serif;
 }
+
+.font-amplitude-light {
+  font-family: "AmplitudeWideLight", sans-serif;
+}

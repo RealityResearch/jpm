@@ -57,8 +57,8 @@ export default function CapTablePage() {
     <main className="mx-auto max-w-6xl p-4 md:p-6 space-y-8">
       {/* Header */}
       <header className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight text-neutral-900">Cap Table</h1>
-        <p className="text-sm text-neutral-500">
+        <h1 className="text-2xl text-neutral-700 mb-4 font-century underline">Cap Table</h1>
+        <p className="text-sm text-neutral-500 font-amplitude">
           Top 10 holders and distribution metrics
         </p>
       </header>
@@ -75,7 +75,7 @@ export default function CapTablePage() {
               </CardHeader>
               <CardContent>
                 {s.value ? (
-                  <div className="text-lg font-semibold tracking-tight text-neutral-900">
+                  <div className="text-lg font-semibold tracking-tight text-neutral-900 font-amplitude">
                     {s.value}
                   </div>
                 ) : (
@@ -96,11 +96,11 @@ export default function CapTablePage() {
           <table className="min-w-full text-sm">
             <thead className="text-neutral-600 border-b">
               <tr>
-                <th className="px-4 py-2 text-left font-medium">Rank</th>
-                <th className="px-4 py-2 text-left font-medium">Address</th>
-                <th className="px-4 py-2 text-right font-medium">Balance</th>
-                <th className="px-4 py-2 text-right font-medium">USD</th>
-                <th className="px-4 py-2 text-right font-medium">% Supply</th>
+                <th className="px-4 py-2 text-left font-medium font-amplitude">Rank</th>
+                <th className="px-4 py-2 text-left font-medium font-amplitude">Address</th>
+                <th className="px-4 py-2 text-right font-medium font-amplitude">Balance</th>
+                <th className="px-4 py-2 text-right font-medium font-amplitude">USD</th>
+                <th className="px-4 py-2 text-right font-medium font-amplitude">% Supply</th>
               </tr>
             </thead>
             <tbody>
@@ -118,7 +118,7 @@ export default function CapTablePage() {
                         href={`https://solscan.io/account/${row.address}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-emerald-600 hover:underline"
+                        className="text-emerald-600 hover:underline font-amplitude-light"
                       >
                         {row.address.slice(0, 4)}…{row.address.slice(-4)}
                       </a>
@@ -126,21 +126,21 @@ export default function CapTablePage() {
                       <Skeleton className="h-4 w-40" />
                     )}
                   </td>
-                  <td className="px-4 py-2 text-right">
+                  <td className="px-4 py-2 text-right font-amplitude-light">
                     {data && row?.balance !== undefined ? (
                       formatNumber(row.balance)
                     ) : (
                       <Skeleton className="h-4 w-16 ml-auto" />
                     )}
                   </td>
-                  <td className="px-4 py-2 text-right">
+                  <td className="px-4 py-2 text-right font-amplitude-light">
                     {data && row?.usd !== undefined ? (
                       formatAbbrCurrency(row.usd)
                     ) : (
                       <Skeleton className="h-4 w-16 ml-auto" />
                     )}
                   </td>
-                  <td className="px-4 py-2 text-right">
+                  <td className="px-4 py-2 text-right font-amplitude-light">
                     {data && row?.pct !== undefined ? (
                       `${row.pct.toFixed(2)}%`
                     ) : (

@@ -18,7 +18,7 @@ export default function MetricCard({ label, primary, secondary, loading, classNa
         <CardTitle className="text-neutral-600">{label}</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-semibold tracking-tight text-neutral-900">
+        <div className="text-2xl font-semibold tracking-tight text-neutral-900 font-amplitude">
           {loading ? "—" : primary}
         </div>
         {secondary ? (

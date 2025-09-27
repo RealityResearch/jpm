@@ -37,7 +37,7 @@ export default function HomePage() {
       </header>
 
       {/* Financials header */}
-      <h2 className="text-lg text-neutral-700 mb-4 font-century">Financials</h2>
+      <h2 className="text-2xl text-neutral-700 mb-4 font-century underline">Financials</h2>
 
       {/* Top three cards */}
       <div className="grid grid-cols-12 gap-4">
@@ -76,7 +76,7 @@ export default function HomePage() {
       />
 
       {/* Shareholder Meetings header */}
-      <h2 className="text-lg text-neutral-700 mb-4 font-century">Shareholder Meetings</h2>
+      <h2 className="text-2xl text-neutral-700 mb-4 font-century underline">Shareholder Meetings</h2>
 
       <Chat />
     </main>
