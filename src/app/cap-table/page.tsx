@@ -100,7 +100,7 @@ export default function CapTablePage() {
                 <th className="px-4 py-2 text-left font-medium font-amplitude">Address</th>
                 <th className="px-4 py-2 text-right font-medium font-amplitude">Balance</th>
                 <th className="px-4 py-2 text-right font-medium font-amplitude">USD</th>
-                <th className="px-4 py-2 text-right font-medium font-amplitude">% Supply</th>
+                <th className="px-4 py-2 text-right font-medium font-amplitude">%</th>
               </tr>
             </thead>
             <tbody>
@@ -109,7 +109,7 @@ export default function CapTablePage() {
                 (Array.from({ length: 10 }) as Array<Holder | undefined>)
               ).map((row: Holder | undefined, idx: number) => (
                 <tr key={idx} className="border-b last:border-0">
-                  <td className="px-4 py-2">
+                  <td className="px-4 py-2 font-amplitude-light">
                     {data ? idx + 1 : <Skeleton className="h-4 w-6" />}
                   </td>
                   <td className="px-4 py-2 max-w-[200px] break-all">
