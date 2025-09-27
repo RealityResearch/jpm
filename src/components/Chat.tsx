@@ -98,7 +98,7 @@ export default function Chat() {
           placeholder="Message…"
           className="flex-1 border rounded px-2 py-1 text-sm"
         />
-        <button onClick={send} className="px-3 py-1 rounded bg-emerald-600 text-white text-sm">
+        <button onClick={send} className="px-3 py-1 rounded bg-[#8ec2e3] text-white text-sm">
           Send
         </button>
       </CardFooter>

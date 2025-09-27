@@ -12,23 +12,23 @@ export default function Navbar() {
 
   const links = [
     { label: "X", href: "https://x.com/JPMonSOL", external: true },
-    { label: "DEX", href: "https://dexscreener.com", external: true },
-    { label: "PUMP", href: "https://pump.fun", external: true },
+    { label: "Dex", href: "https://dexscreener.com", external: true },
+    { label: "Pump", href: "https://pump.fun", external: true },
   ];
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200 shadow-sm">
-      <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-6">
+      <nav className="mx-auto flex h-12 max-w-6xl items-start justify-between px-4 md:px-6">
         {/* Brand */}
         <div className="flex items-center gap-6 font-century">
           <Link href="/" className="flex items-center gap-2 cursor-pointer">
             <Image
-              src="/jpm-brown.png"
+              src="/jpm-brown-line.png"
               alt="J.P. Moregain"
               width={120}
               height={32}
               priority
-              className="h-8 w-auto"
+              className="h-10 w-auto mt-0"
               style={{ width: "auto", height: "2rem" }}
             />
             <span className="sr-only">J.P. Moregain</span>
@@ -36,7 +36,7 @@ export default function Navbar() {
           <Link
             href="/cap-table"
             className={cn(
-              "hidden md:inline-block text-base text-neutral-700 hover:underline",
+              "hidden md:inline-block mt-2 text-base text-neutral-700 hover:underline",
               pathname.startsWith("/cap-table") && "underline"
             )}
           >
@@ -45,7 +45,7 @@ export default function Navbar() {
           <Link
             href="/whitepaper"
             className={cn(
-              "hidden md:inline-block text-base text-neutral-700 hover:underline",
+              "hidden md:inline-block mt-2 text-base text-neutral-700 hover:underline",
               pathname.startsWith("/whitepaper") && "underline"
             )}
           >
@@ -54,14 +54,14 @@ export default function Navbar() {
         </div>
 
         {/* Desktop links */}
-        <ul className="hidden gap-6 md:flex font-century">
+        <ul className="hidden gap-6 md:flex font-century items-start mt-2">
           {links.map((l) => (
             <li key={l.label}>
               <a
                 href={l.href}
                 target={l.external ? "_blank" : undefined}
                 rel={l.external ? "noopener noreferrer" : undefined}
-                className="text-sm text-neutral-700 hover:underline"
+                className="text-base text-neutral-700 hover:underline"
               >
                 {l.label}
               </a>
@@ -72,7 +72,7 @@ export default function Navbar() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-400"
+          className="md:hidden mt-2 inline-flex items-center justify-center w-9 h-9 rounded hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-400"
           aria-label="Menu"
         >
           <svg
@@ -94,11 +94,11 @@ export default function Navbar() {
       {/* Mobile dropdown */}
       <div
         className={cn(
-          "md:hidden border-t border-neutral-200 bg-white px-4 pb-4 flex-col space-y-2", // container styles
+          "md:hidden border-t border-neutral-200 bg-white px-4 pt-4 pb-4 flex-col space-y-3",
           open ? "flex" : "hidden"
         )}
       >
-        <Link href="/cap-table" className="text-sm text-neutral-700 hover:underline" onClick={() => setOpen(false)}>
+        <Link href="/cap-table" className="text-base text-neutral-700 hover:underline font-century" onClick={() => setOpen(false)}>
           Cap Table
         </Link>
         <Link
@@ -117,7 +117,7 @@ export default function Navbar() {
             href={l.href}
             target={l.external ? "_blank" : undefined}
             rel={l.external ? "noopener noreferrer" : undefined}
-            className="text-sm text-neutral-700 hover:underline font-century"
+            className="text-base text-neutral-700 hover:underline font-century"
             onClick={() => setOpen(false)}
           >
             {l.label}

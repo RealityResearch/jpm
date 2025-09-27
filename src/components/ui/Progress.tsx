@@ -14,7 +14,7 @@ export function Progress({ value, className }: Props) {
       aria-valuemax={100}
     >
       <div
-        className="h-full bg-emerald-600 rounded-full transition-all"
+        className="h-full rounded-full transition-all bg-[#8ec2e3]"
         style={{ width: `${Math.min(100, Math.max(0, value))}%` }}
       />
     </div>
