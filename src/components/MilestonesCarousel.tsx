@@ -22,7 +22,7 @@ export default function MilestonesCarousel({ active, upcoming, completed, profit
 
   return (
     <section className="space-y-6">
-      <h2 className="text-lg font-semibold text-neutral-700">OpEx</h2>
+      <h2 className="text-lg text-neutral-700 mb-4 font-century">OpEx</h2>
       {/* Active */}
       {active.length > 0 && (
         <div className="space-y-4">

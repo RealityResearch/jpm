@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   const links = [
     { label: "X", href: "https://x.com/JPMonSOL", external: true },
@@ -19,7 +21,7 @@ export default function Navbar() {
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-6">
         {/* Brand */}
         <div className="flex items-center gap-6 font-century">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
             <Image
               src="/jpm-brown.png"
               alt="J.P. Moregain"
@@ -31,10 +33,22 @@ export default function Navbar() {
             />
             <span className="sr-only">J.P. Moregain</span>
           </Link>
-          <Link href="/cap-table" className="hidden md:inline-block text-base text-neutral-700 hover:underline">
+          <Link
+            href="/cap-table"
+            className={cn(
+              "hidden md:inline-block text-base text-neutral-700 hover:underline",
+              pathname.startsWith("/cap-table") && "underline"
+            )}
+          >
             Cap Table
           </Link>
-          <Link href="/whitepaper" className="hidden md:inline-block text-base text-neutral-700 hover:underline">
+          <Link
+            href="/whitepaper"
+            className={cn(
+              "hidden md:inline-block text-base text-neutral-700 hover:underline",
+              pathname.startsWith("/whitepaper") && "underline"
+            )}
+          >
             Whitepaper
           </Link>
         </div>
@@ -87,7 +101,14 @@ export default function Navbar() {
         <Link href="/cap-table" className="text-sm text-neutral-700 hover:underline" onClick={() => setOpen(false)}>
           Cap Table
         </Link>
-        <Link href="/whitepaper" className="text-base text-neutral-700 hover:underline font-century" onClick={() => setOpen(false)}>
+        <Link
+          href="/whitepaper"
+          className={cn(
+            "text-base text-neutral-700 hover:underline font-century",
+            pathname.startsWith("/whitepaper") && "underline"
+          )}
+          onClick={() => setOpen(false)}
+        >
           Whitepaper
         </Link>
         {links.map((l) => (

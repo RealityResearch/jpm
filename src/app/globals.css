@@ -68,3 +68,8 @@ body {
 .font-century {
   font-family: "CenturyBook", serif;
 }
+
+/* utility */
+.font-amplitude {
+  font-family: "AmplitudeRegular", sans-serif;
+}
