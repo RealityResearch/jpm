@@ -1,14 +1,14 @@
 /* eslint-disable react/no-unescaped-entities */
 const WhitepaperPage = () => {
     return (
-      <section className="mx-auto w-11/12 md:w-1/2 mt-20 flex flex-col gap-16 mb-20">
+<section className="whitepaper mx-auto w-11/12 md:w-1/2 mt-20 flex flex-col gap-16 mb-20">
         <header>
           <h1 className="text-5xl font-bold mb-2">The J.P. Moregain Manifesto</h1>
           <p className="text-gray-600 italic">Version 1.0 | 2025</p>
         </header>
   
         {/* Section 1: Executive Summary */}
-        <article className="flex flex-col gap-6">
+        <article className="prose lg:prose-lg prose-neutral dark:prose-invert">
           <h2 className="text-3xl font-bold border-b-2 border-gray-200 pb-2">1. EXECUTIVE SUMMARY</h2>
           
           <p className="text-lg leading-relaxed">

@@ -18,7 +18,7 @@ export default function Navbar() {
     <header className="fixed inset-x-0 top-0 z-50 bg-white/80 backdrop-blur border-b border-neutral-200 shadow-sm">
       <nav className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-6">
         {/* Brand */}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 font-century">
           <Link href="/" className="flex items-center gap-2">
             <Image
               src="/jpm-brown.png"
@@ -31,16 +31,16 @@ export default function Navbar() {
             />
             <span className="sr-only">J.P. Moregain</span>
           </Link>
-          <Link href="/cap-table" className="hidden md:inline-block text-sm text-neutral-700 hover:underline">
+          <Link href="/cap-table" className="hidden md:inline-block text-base text-neutral-700 hover:underline">
             Cap Table
           </Link>
-          <Link href="/whitepaper" className="hidden md:inline-block text-sm text-neutral-700 hover:underline">
+          <Link href="/whitepaper" className="hidden md:inline-block text-base text-neutral-700 hover:underline">
             Whitepaper
           </Link>
         </div>
 
         {/* Desktop links */}
-        <ul className="hidden gap-6 md:flex">
+        <ul className="hidden gap-6 md:flex font-century">
           {links.map((l) => (
             <li key={l.label}>
               <a
@@ -87,7 +87,7 @@ export default function Navbar() {
         <Link href="/cap-table" className="text-sm text-neutral-700 hover:underline" onClick={() => setOpen(false)}>
           Cap Table
         </Link>
-        <Link href="/whitepaper" className="text-sm text-neutral-700 hover:underline" onClick={() => setOpen(false)}>
+        <Link href="/whitepaper" className="text-base text-neutral-700 hover:underline font-century" onClick={() => setOpen(false)}>
           Whitepaper
         </Link>
         {links.map((l) => (
@@ -96,7 +96,7 @@ export default function Navbar() {
             href={l.href}
             target={l.external ? "_blank" : undefined}
             rel={l.external ? "noopener noreferrer" : undefined}
-            className="text-sm text-neutral-700 hover:underline py-1"
+            className="text-sm text-neutral-700 hover:underline font-century"
             onClick={() => setOpen(false)}
           >
             {l.label}
