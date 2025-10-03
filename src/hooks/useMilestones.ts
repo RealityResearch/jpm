@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 
 export type Milestone = {
   id: string;
@@ -103,11 +103,13 @@ export function useMilestones(revenueUSD: number) {
     const remaining = seed.filter((m) => !doneIds.includes(m.id));
     setCompleted(completedSeed);
     if (remaining.length) {
-      setActive(remaining.slice(0, 5));
-      setUpcoming(remaining.slice(2));
+      // Show ALL remaining milestones as active - no limits
+      setActive(remaining);
+      setUpcoming([]);
     } else {
-      // all milestones completed previously – show first two in completed as active for display
-      setActive(completedSeed.slice(-2));
+      // all milestones completed previously – show all completed milestones
+      setActive([]);
+      setUpcoming([]);
     }
   }, []);
 
@@ -123,17 +125,12 @@ export function useMilestones(revenueUSD: number) {
         return next;
       });
       setActive((a) => {
+        // Remove the completed milestone from active list
         const [, ...rest] = a;
-        const promoted = upcoming.slice(0, 1);
-        setUpcoming((u) => u.slice(1));
-        return [...rest, ...promoted];
+        return rest;
       });
-    } else if (active.length === 0 && upcoming.length) {
-      // ensure at least one active for display
-      setActive(upcoming.slice(0, 1));
-      setUpcoming((u) => u.slice(1));
     }
-  }, [revenueUSD, active, upcoming]);
+  }, [revenueUSD, active, completed]);
 
   const completedTotalUSD = completed.reduce((sum, m) => sum + m.costUSD, 0);
 

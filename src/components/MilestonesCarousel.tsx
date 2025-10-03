@@ -1,5 +1,4 @@
 "use client";
-import { useRef } from "react";
 import MilestoneCard from "@/components/MilestoneCard";
 import { Milestone } from "@/hooks/useMilestones";
 
@@ -11,23 +10,16 @@ type Props = {
 };
 
 export default function MilestonesCarousel({ active, upcoming, completed, profitUSD }: Props) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (dir: "left" | "right") => {
-    const el = containerRef.current;
-    if (!el) return;
-    const delta = dir === "left" ? -300 : 300;
-    el.scrollBy({ left: delta, behavior: "smooth" });
-  };
-
   return (
     <section className="space-y-6">
       <h2 className="text-2xl text-neutral-700 mb-4 font-century underline">OpEx</h2>
-      {/* Active */}
+      
+      {/* Active milestones - show ALL active milestones */}
       {active.length > 0 && (
         <div className="space-y-4">
           <h3 className="text-sm font-medium text-neutral-600 font-amplitude-light">Active</h3>
-          {active.filter(a=>!completed.some(c=>c.id===a.id)).map((m, idx) => {
+          {active.map((m, idx) => {
+            // Only the first milestone shows progress, others show 0 until it's their turn
             const pct = idx === 0 && m.costUSD > 0 ? Math.min(100, Math.max(0, (profitUSD / m.costUSD) * 100)) : 0;
             const progress = Number.isFinite(pct) ? pct : 0;
             return <MilestoneCard key={m.id} milestone={m} progress={progress} />;
@@ -35,7 +27,7 @@ export default function MilestonesCarousel({ active, upcoming, completed, profit
         </div>
       )}
 
-      {/* completed */}
+      {/* Completed milestones - show ALL completed milestones */}
       {completed.length > 0 && (
         <div>
           <h3 className="text-sm font-medium text-neutral-600 mb-2 font-amplitude-light">Completed</h3>
