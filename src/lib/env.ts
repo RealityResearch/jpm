@@ -1,8 +1,6 @@
 export const env = {
   creator: process.env.NEXT_PUBLIC_PUMP_CREATOR ?? "",
-  mint:
-    process.env.NEXT_PUBLIC_JPM_MINT ??
-    "5wVtfsFhLjxm27K9mN3ziYWCCpQwXXq7HWUiRMW7pump",
+  mint: process.env.NEXT_PUBLIC_JPM_MINT ?? "",
   pumpBase: process.env.NEXT_PUBLIC_PUMP_BASE ?? "https://swap-api.pump.fun",
   interval: process.env.NEXT_PUBLIC_PUMP_INTERVAL ?? "30m",
   limit: Number(process.env.NEXT_PUBLIC_PUMP_LIMIT ?? "336"),

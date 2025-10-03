@@ -9,14 +9,17 @@ import { useHolders } from "@/hooks/useHolders";
 import { useTokenMetrics } from "@/hooks/useTokenMetrics";
 import { useMilestones } from "@/hooks/useMilestones";
 import { formatNumber, formatAbbrCurrency } from "@/lib/format";
-import Image from "next/image";
+import { env } from "@/lib/env";
 import MilestonesCarousel from "@/components/MilestonesCarousel";
 import Chat from "@/components/Chat";
 
 export default function HomePage() {
+  // Check if we have a valid CA (Contract Address)
+  const hasValidCA = env.mint && env.mint.trim() !== "";
+  
   const { data: rewards, loading: loadingRewards } = useRewards();
-  const revenueUSD = rewards?.balanceUSD ?? 0;
-  const revenueSOL = rewards?.balanceSOL ?? 0;
+  const revenueUSD = hasValidCA ? (rewards?.balanceUSD ?? 0) : 0;
+  const revenueSOL = hasValidCA ? (rewards?.balanceSOL ?? 0) : 0;
 
   const { holders, loading: loadingHolders } = useHolders();
   const {
@@ -25,15 +28,17 @@ export default function HomePage() {
   } = useTokenMetrics();
 
   const { active, upcoming, completed, completedTotalUSD: expensesUSD } = useMilestones(revenueUSD);
-  const profitUSD = Math.max(0, revenueUSD - expensesUSD);
+  const profitUSD = hasValidCA ? Math.max(0, revenueUSD - expensesUSD) : 0;
   const ratio = revenueUSD > 0 ? revenueSOL / revenueUSD : 0;
-  const expensesSOL = expensesUSD * ratio;
+  const expensesSOL = hasValidCA ? (expensesUSD * ratio) : 0;
 
   return (
     <main className="mx-auto max-w-6xl space-y-8 p-4 md:p-6">
       {/* Contract address */}
       <header className="flex justify-center">
-        <p className="text-xs text-neutral-400">CA: {process.env.NEXT_PUBLIC_JPM_MINT}</p>
+        <p className="text-xs text-neutral-400">
+          CA: {hasValidCA ? env.mint : "CA Incoming..."}
+        </p>
       </header>
 
       {/* Financials header */}
@@ -42,7 +47,7 @@ export default function HomePage() {
       {/* Top three cards */}
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-4">
-          <RevenueCard usd={revenueUSD} sol={revenueSOL} loading={loadingRewards} />
+          <RevenueCard usd={revenueUSD} sol={revenueSOL} loading={hasValidCA ? loadingRewards : false} />
         </div>
         <div className="col-span-12 md:col-span-4">
           <ExpensesCard totalUSD={expensesUSD} totalSOL={expensesSOL} />
@@ -53,7 +58,7 @@ export default function HomePage() {
             expensesUSD={expensesUSD}
             revenueSOL={revenueSOL}
             expensesSOL={expensesSOL}
-            loading={loadingRewards}
+            loading={hasValidCA ? loadingRewards : false}
           />
         </div>
       </div>
@@ -61,10 +66,18 @@ export default function HomePage() {
       {/* Metrics row */}
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 sm:col-span-6">
-          <MetricCard label="Holders" primary={formatNumber(holders ?? 0)} loading={loadingHolders} />
+          <MetricCard 
+            label="Holders" 
+            primary={hasValidCA ? formatNumber(holders ?? 0) : "0"} 
+            loading={hasValidCA ? loadingHolders : false} 
+          />
         </div>
         <div className="col-span-12 sm:col-span-6">
-          <MetricCard label="Market Cap" primary={formatAbbrCurrency(marketCapUSD)} loading={loadingCap} />
+          <MetricCard 
+            label="Market Cap" 
+            primary={hasValidCA ? formatAbbrCurrency(marketCapUSD) : "$0"} 
+            loading={hasValidCA ? loadingCap : false} 
+          />
         </div>
       </div>
 
