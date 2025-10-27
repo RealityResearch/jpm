@@ -34,12 +34,29 @@ export default function HomePage() {
   const ratio = revenueUSD > 0 ? revenueSOL / revenueUSD : 0;
   const expensesSOL = hasValidCA ? (expensesUSD * ratio) : 0;
 
+  // Show "Coming soon" message when no CA is set
+  if (!hasValidCA) {
+    return (
+      <main className="mx-auto max-w-6xl space-y-8 p-4 md:p-6">
+        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-4">
+          <h1 className="text-4xl font-century text-neutral-800">Coming Soon</h1>
+          <p className="text-xl text-neutral-600 font-amplitude-light">
+            J.P. Moregain is preparing for launch
+          </p>
+          <p className="text-sm text-neutral-400">
+            Check back soon for shareholder data and financials
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="mx-auto max-w-6xl space-y-8 p-4 md:p-6">
       {/* Contract address */}
       <header className="flex justify-center">
         <p className="text-xs text-neutral-400">
-          CA: {hasValidCA ? mint : "CA Incoming..."}
+          CA: {mint}
         </p>
       </header>
 
@@ -49,7 +66,7 @@ export default function HomePage() {
       {/* Top three cards */}
       <div className="grid grid-cols-12 gap-4">
         <div className="col-span-12 md:col-span-4">
-          <RevenueCard usd={revenueUSD} sol={revenueSOL} loading={hasValidCA ? loadingRewards : false} />
+          <RevenueCard usd={revenueUSD} sol={revenueSOL} loading={loadingRewards} />
         </div>
         <div className="col-span-12 md:col-span-4">
           <ExpensesCard totalUSD={expensesUSD} totalSOL={expensesSOL} />
@@ -60,7 +77,7 @@ export default function HomePage() {
             expensesUSD={expensesUSD}
             revenueSOL={revenueSOL}
             expensesSOL={expensesSOL}
-            loading={hasValidCA ? loadingRewards : false}
+            loading={loadingRewards}
           />
         </div>
       </div>
@@ -70,15 +87,15 @@ export default function HomePage() {
         <div className="col-span-12 sm:col-span-6">
           <MetricCard 
             label="Holders" 
-            primary={hasValidCA ? formatNumber(holders ?? 0) : "0"} 
-            loading={hasValidCA ? loadingHolders : false} 
+            primary={formatNumber(holders ?? 0)} 
+            loading={loadingHolders} 
           />
         </div>
         <div className="col-span-12 sm:col-span-6">
           <MetricCard 
             label="Market Cap" 
-            primary={hasValidCA ? formatAbbrCurrency(marketCapUSD) : "$0"} 
-            loading={hasValidCA ? loadingCap : false} 
+            primary={formatAbbrCurrency(marketCapUSD)} 
+            loading={loadingCap} 
           />
         </div>
       </div>
