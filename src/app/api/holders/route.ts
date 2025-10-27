@@ -21,20 +21,23 @@ export async function GET() {
   if (!mint) return json(400, { holders: 0, error: "Missing NEXT_PUBLIC_JPM_MINT" });
   if (!env.moralisKey) return json(400, { holders: 0, error: "Missing MORALIS_API_KEY" });
 
-  // Use the holder-stats endpoint to get total holders count
+  // Use the top-holders endpoint to get total holders count (same as cap-table uses)
   const base = "https://solana-gateway.moralis.io";
-  const url = `${base}/token/mainnet/${mint}/holder-stats`;
+  const network = "mainnet";
+  const url = `${base}/token/${network}/${mint}/top-holders?limit=1`;
+  const headers = { "X-API-Key": env.moralisKey, accept: "application/json" };
+  
   try {
-    const res = await fetchJSON<{ totalHolders?: number; uniqueHolders?: number }>(
+    const res = await fetchJSON<{ total?: number; result?: unknown[] }>(
       url, 
-      { headers: { "X-API-Key": env.moralisKey, accept: "application/json" }, cache: "no-store" },
+      { headers, cache: "no-store" },
       10000
     );
     
-    // Try totalHolders first, fallback to uniqueHolders if available
-    const holders = res.totalHolders ?? res.uniqueHolders ?? 0;
+    // The total field contains the total number of holders
+    const holders = res.total ?? 0;
     
-    console.log("[api/holders] Response:", { totalHolders: res.totalHolders, uniqueHolders: res.uniqueHolders, final: holders });
+    console.log("[api/holders] Success - total holders:", holders);
     
     return json(200, { holders });
   } catch (e) {
