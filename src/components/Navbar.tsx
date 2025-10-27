@@ -12,8 +12,8 @@ export default function Navbar() {
 
   const links = [
     { label: "X", href: "https://x.com/JPMonSOL", external: true },
-    { label: "Dex", href: "https://dexscreener.com", external: true },
-    { label: "Pump", href: "https://pump.fun", external: true },
+    { label: "Dex", href: "https://dexscreener.com/solana/abpokkfcj6x9vclrtwle2jqjuokgavansvbm2p1z6sjx", external: true },
+    { label: "Pump", href: "https://pump.fun/coin/548NBTXe8TijZ8jMgfnvjFszJUoUX2S28reRRnmGpump", external: true },
   ];
 
   return (
