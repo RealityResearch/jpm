@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { env } from "@/lib/env";
 import { fetchJSON, HttpError } from "@/lib/http";
 
-export const revalidate = 120;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 function json(status: number, data: unknown) {
   const res = NextResponse.json(data, { status });
@@ -20,13 +21,13 @@ export async function GET() {
   if (!mint) return json(400, { holders: 0, error: "Missing NEXT_PUBLIC_JPM_MINT" });
   if (!env.moralisKey) return json(400, { holders: 0, error: "Missing MORALIS_API_KEY" });
 
-  const url = `https://solana-gateway.moralis.io/token/mainnet/holders/${mint}`;
+  const url = `https://solana-gateway.moralis.io/token/mainnet/${mint}`;
   try {
-    const res = await fetchJSON<{ totalHolders?: number; total?: number }>(url, {
+    const res = await fetchJSON<{ holders?: number }>(url, {
       headers: { "X-API-Key": env.moralisKey },
       cache: "no-store",
     });
-    const holders = res.totalHolders ?? res.total ?? 0;
+    const holders = res.holders ?? 0;
     return json(200, { holders });
   } catch (e) {
     const msg = e instanceof HttpError ? e.message : (e as Error).message;

@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { env } from "@/lib/env";
 
-export const revalidate = 120;
 export const runtime = "nodejs";
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {

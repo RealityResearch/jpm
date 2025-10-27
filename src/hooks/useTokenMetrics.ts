@@ -2,10 +2,12 @@
 import useSWR from "swr";
 
 type TokenMetrics = {
-  usdPrice: number;
-  totalSupplyFormatted: number;
-  marketCapUsd: number;
-  fdvUsd: number;
+  usdPrice?: number;
+  totalSupply?: number;
+  decimals?: number;
+  marketCapUsd?: number;
+  fdvUsd?: number;
+  source?: string;
 };
 
 const fetcher = async (url: string) => {
