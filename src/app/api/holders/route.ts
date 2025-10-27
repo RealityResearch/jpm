@@ -25,10 +25,11 @@ export async function GET() {
   const base = "https://solana-gateway.moralis.io";
   const url = `${base}/token/mainnet/${mint}/holder-stats`;
   try {
-    const res = await fetchJSON<{ totalHolders?: number; uniqueHolders?: number }>(url, {
-      headers: { "X-API-Key": env.moralisKey, accept: "application/json" },
-      cache: "no-store",
-    }, 10000);
+    const res = await fetchJSON<{ totalHolders?: number; uniqueHolders?: number }>(
+      url, 
+      { headers: { "X-API-Key": env.moralisKey, accept: "application/json" }, cache: "no-store" },
+      10000
+    );
     
     // Try totalHolders first, fallback to uniqueHolders if available
     const holders = res.totalHolders ?? res.uniqueHolders ?? 0;
