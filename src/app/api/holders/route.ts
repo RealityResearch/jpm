@@ -21,36 +21,27 @@ export async function GET() {
   if (!mint) return json(400, { holders: 0, error: "Missing NEXT_PUBLIC_JPM_MINT" });
   if (!env.moralisKey) return json(400, { holders: 0, error: "Missing MORALIS_API_KEY" });
 
-  // Use the top-holders endpoint to get total holders count (same as cap-table uses)
+  // Use the dedicated get-token-holder-stats endpoint
+  // https://docs.moralis.com/web3-data-api/solana/reference/get-token-holder-stats
   const base = "https://solana-gateway.moralis.io";
   const network = "mainnet";
-  // Use limit=10 to ensure we get the total field (same as top-holders route)
-  const url = `${base}/token/${network}/${mint}/top-holders?limit=10`;
-  const headers = { "X-API-Key": env.moralisKey, accept: "application/json" };
+  const url = `${base}/token/${network}/holders/${mint}`;
+  const headers: Record<string, string> = { "X-API-Key": env.moralisKey, "accept": "application/json" };
   
   try {
-    const res = await fetchJSON<{ total?: number; result?: unknown[]; totalSupply?: string }>(
+    const res = await fetchJSON<{ totalHolders?: number }>(
       url, 
       { headers, cache: "no-store" },
-      10000
+      15000
     );
     
-    // The total field contains the total number of holders
-    const holders = res.total ?? 0;
+    const holders = res.totalHolders ?? 0;
     
-    // Log response structure for debugging
-    console.log("[api/holders] Response received:", {
-      hasTotal: res.total !== undefined,
-      totalValue: res.total,
-      hasResult: Array.isArray(res.result),
-      resultLength: res.result?.length ?? 0,
+    console.log("[api/holders] Response:", {
+      totalHolders: holders,
+      hasTotalHolders: res.totalHolders !== undefined,
       responseKeys: Object.keys(res)
     });
-    
-    // If total is undefined or 0, log a warning
-    if (!holders) {
-      console.warn("[api/holders] No holders found or total field missing. Response:", JSON.stringify(res).slice(0, 200));
-    }
     
     return json(200, { holders });
   } catch (e) {
