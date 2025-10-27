@@ -15,7 +15,9 @@ import Chat from "@/components/Chat";
 
 export default function HomePage() {
   // Check if we have a valid CA (Contract Address)
-  const hasValidCA = env.mint && env.mint.trim() !== "";
+  // Use runtime env var to ensure it's available in production
+  const mint = process.env.NEXT_PUBLIC_JPM_MINT || env.mint || "";
+  const hasValidCA = mint && mint.trim() !== "";
   
   const { data: rewards, loading: loadingRewards } = useRewards();
   const revenueUSD = hasValidCA ? (rewards?.balanceUSD ?? 0) : 0;
@@ -37,7 +39,7 @@ export default function HomePage() {
       {/* Contract address */}
       <header className="flex justify-center">
         <p className="text-xs text-neutral-400">
-          CA: {hasValidCA ? env.mint : "CA Incoming..."}
+          CA: {hasValidCA ? mint : "CA Incoming..."}
         </p>
       </header>
 
