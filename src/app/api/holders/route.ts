@@ -21,16 +21,20 @@ export async function GET() {
   if (!mint) return json(400, { holders: 0, error: "Missing NEXT_PUBLIC_JPM_MINT" });
   if (!env.moralisKey) return json(400, { holders: 0, error: "Missing MORALIS_API_KEY" });
 
-  // Use the top-holders endpoint to get total holders count
-  const url = `https://solana-gateway.moralis.io/token/mainnet/${mint}/top-holders?limit=1`;
+  // Use the holder-stats endpoint to get total holders count
+  const base = "https://solana-gateway.moralis.io";
+  const url = `${base}/token/mainnet/${mint}/holder-stats`;
   try {
-    const res = await fetchJSON<{ total?: number; result?: unknown[] }>(url, {
+    const res = await fetchJSON<{ totalHolders?: number; uniqueHolders?: number }>(url, {
       headers: { "X-API-Key": env.moralisKey, accept: "application/json" },
       cache: "no-store",
     }, 10000);
     
-    // Total holders is in the total field
-    const holders = res.total ?? 0;
+    // Try totalHolders first, fallback to uniqueHolders if available
+    const holders = res.totalHolders ?? res.uniqueHolders ?? 0;
+    
+    console.log("[api/holders] Response:", { totalHolders: res.totalHolders, uniqueHolders: res.uniqueHolders, final: holders });
+    
     return json(200, { holders });
   } catch (e) {
     const msg = e instanceof HttpError ? e.message : (e as Error).message;
